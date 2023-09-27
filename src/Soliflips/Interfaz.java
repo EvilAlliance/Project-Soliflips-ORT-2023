@@ -18,7 +18,22 @@ public class Interfaz {
         for (int i = h.length - 1; i > -1; i--) {
             mat2.cellAction(h[i].getX(), h[i].getY());
         }
+
+        mat2.print();
+
+        mat2.playerMovement(0, 0);
+        mat2.print();
+
+        mat2.playerMovement(8, 8);
+        mat2.print();
         
+        System.out.println(Arrays.toString(mat2.getHistoria().toArray()));
+
+
+        mat2.unDoMovement();
+        mat2.print();
+
+        mat2.unDoMovement();
         mat2.print();
     }
 }

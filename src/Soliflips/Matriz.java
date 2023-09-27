@@ -1,10 +1,14 @@
 package Soliflips;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class Matriz {
 
     private Celda[][] matriz;
     private int nivel;
     private Historia[] solucion;
+    private ArrayList<Historia> historia;
 
     public Celda[][] getMatriz() {
         return this.matriz;
@@ -50,16 +54,38 @@ public class Matriz {
         this.solucion = new Historia[givenLenght];
     }
 
-    public Historia getHistoria(int givenIndex) {
+    public Historia getSolucionHistoria(int givenIndex) {
         return solucion[givenIndex];
     }
 
-    public boolean setHistoria(int row, int column, int index) {
+    public boolean setSolucionHistoria(int row, int column, int index) {
         boolean verifica = false;
 
         if (this.validCell(row, column) && index >= 0 && index < solucion.length) {
             this.solucion[index] = new Historia(row, column);
             verifica = true;
+        }
+
+        return verifica;
+    }
+
+    public ArrayList<Historia> getHistoria() {
+        return this.historia;
+    }
+
+    public void setHitoria() {
+        this.historia = new ArrayList<Historia>();
+    }
+
+    public Historia getHistoriaMovement(int givenIndex) {
+        return historia.get(givenIndex);
+    }
+
+    public boolean setHistoriaMovement(int row, int column) {
+        boolean verifica = false;
+
+        if (this.validCell(row, column)) {
+            this.historia.add(new Historia(row, column));
         }
 
         return verifica;
@@ -95,7 +121,7 @@ public class Matriz {
 
     public boolean validMovement(int row, int column, int index) {
         boolean valid = false;
-        Historia movimiento = this.getHistoria(index - 1);
+        Historia movimiento = this.getSolucionHistoria(index - 1);
         int anteriorRow = movimiento.getX();
         int anteriorColumn = movimiento.getY();
         if (this.validCell(row, column) && (row != anteriorRow || column != anteriorColumn)) {
@@ -137,12 +163,32 @@ public class Matriz {
         return valid;
     }
 
+    public boolean playerMovement(int row, int column) {
+        boolean verifica = false;
+        if (this.validCell(row, column)) {
+            this.cellAction(row, column);
+            this.setHistoriaMovement(row, column);
+            verifica = true;
+        }
+        return verifica;
+    }
+
+    public void unDoMovement() {
+        int indexLastMove = this.getHistoria().size() - 1;
+        if (indexLastMove > -1) {
+            Historia lastMove = this.getHistoriaMovement(indexLastMove);
+            this.cellAction(lastMove.getX(), lastMove.getY());
+            historia.remove(indexLastMove);
+        }
+    }
+
     public Matriz() {
         this(5, 6, 3);
     }
 
     public Matriz(int row, int column, int nivel) {
         char[] symbols = {'\\', '|', '-', '/'};
+        this.setHitoria();
         this.setMatriz(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -159,7 +205,7 @@ public class Matriz {
                 int randomY = (int) Math.floor(Math.random() * column);
                 if (i == 0 || this.validMovement(randomX, randomY, i)) {
                     this.cellAction(randomX, randomY);
-                    this.setHistoria(randomX, randomY, i);
+                    this.setSolucionHistoria(randomX, randomY, i);
                 } else {
                     i--;
                 }
@@ -167,10 +213,6 @@ public class Matriz {
         }
     }
 
-    /**
-     * Hola
-     * @param 
-     */
     public void print() {
         System.out.println(this);
     }
