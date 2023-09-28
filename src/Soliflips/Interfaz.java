@@ -3,6 +3,7 @@ package Soliflips;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +12,7 @@ public class Interfaz {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void main(String[] args) throws InterruptedException, AWTException {
+    public static void main(String[] args) throws InterruptedException, AWTException, FileNotFoundException {
         Matriz mat2 = new Matriz(9, 9, 9);
         mat2.print();
         System.out.println(Arrays.toString(mat2.getSolucion()));
@@ -32,11 +33,6 @@ public class Interfaz {
 
         System.out.println(Arrays.toString(mat2.getHistoria().toArray()));
 
-        System.out.println("Clear");
-        clear();
-        Thread.sleep(500);
-        System.out.println("Cleared");
-
         mat2.undoMovement();
         mat2.print();
 
@@ -48,9 +44,12 @@ public class Interfaz {
         x.stop();
 
         System.out.println(x);
+
+        new FileMatriz(".\\Test\\datos.txt");
+
     }
 
-    public static void clear() throws AWTException, InterruptedException {
+    public static void clear() throws AWTException {
         Robot r = new Robot();
         r.keyPress(KeyEvent.VK_CONTROL);
         r.keyPress(KeyEvent.VK_L);

@@ -92,20 +92,20 @@ public class Matriz {
 
         return verifica;
     }
-    
-    public void setTime(){
+
+    public void setTime() {
         this.time = new Tiempo();
     }
-    
-    public Tiempo getTime(){
+
+    public Tiempo getTime() {
         return time;
     }
-    
-    public void setComplete(boolean givenBoolean){
+
+    public void setComplete(boolean givenBoolean) {
         this.complete = givenBoolean;
     }
-    
-    public boolean getComplete(){
+
+    public boolean getComplete() {
         return this.complete;
     }
 
@@ -199,18 +199,22 @@ public class Matriz {
             historia.remove(indexLastMove);
         }
     }
-    
-    public boolean completeMatriz(){
+
+    public boolean completeMatriz() {
         boolean hasBlue = false;
         Celda[][] mat = this.getMatriz();
-        for(int i = 0; i < mat.length && !hasBlue; i++){
+        for (int i = 0; i < mat.length && !hasBlue; i++) {
             for (int j = 0; j < mat[0].length && !hasBlue; j++) {
-                if(mat[i][j].getColour() == 'B'){
-                    this.getTime().sto
+                if (mat[i][j].getColour() == 'B') {
                     hasBlue = true;
                 }
             }
         }
+
+        if (!hasBlue) {
+            this.getTime().stop();
+        }
+
         return !hasBlue;
     }
 
@@ -221,6 +225,7 @@ public class Matriz {
     public Matriz(int row, int column, int nivel) {
         char[] symbols = {'\\', '|', '-', '/'};
         this.setComplete(false);
+        this.setTime();
         this.setHitoria();
         this.setMatriz(row, column);
         for (int i = 0; i < row; i++) {
@@ -244,6 +249,13 @@ public class Matriz {
                 }
             }
         }
+    }
+
+    public Matriz(int row, int column) {
+        this.setComplete(false);
+        this.setHitoria();
+        this.setTime();
+        this.setMatriz(row, column);
     }
 
     public void print() {

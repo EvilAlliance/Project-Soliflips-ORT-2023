@@ -21,7 +21,7 @@ public class Celda {
     public boolean setColour(char givenColour) {
         boolean verifica = false;
 
-        if (givenColour == 'B' || givenColour == 'R') {
+        if (givenColour == 'A' || givenColour == 'R') {
             this.colour = givenColour;
             verifica = true;
         }
@@ -31,7 +31,7 @@ public class Celda {
 
     public void swap() {
         if (this.getColour() == 'R') {
-            this.setColour('B');
+            this.setColour('A');
         } else {
             this.setColour('R');
         }
@@ -50,7 +50,7 @@ public class Celda {
     public String toString() {
         String print = "";
 
-        if (this.getColour() == 'B') {
+        if (this.getColour() == 'A') {
             print += "\u001B[34m";
         } else {
             print += "\u001B[31m";
