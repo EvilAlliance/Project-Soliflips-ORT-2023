@@ -9,6 +9,8 @@ public class Matriz {
     private int nivel;
     private Historia[] solucion;
     private ArrayList<Historia> historia;
+    private Tiempo time;
+    private boolean complete;
 
     public Celda[][] getMatriz() {
         return this.matriz;
@@ -90,6 +92,22 @@ public class Matriz {
 
         return verifica;
     }
+    
+    public void setTime(){
+        this.time = new Tiempo();
+    }
+    
+    public Tiempo getTime(){
+        return time;
+    }
+    
+    public void setComplete(boolean givenBoolean){
+        this.complete = givenBoolean;
+    }
+    
+    public boolean getComplete(){
+        return this.complete;
+    }
 
     public boolean validCell(int row, int column) {
         return row >= 0 && row < this.getMatriz().length && column >= 0 && column < this.getMatriz()[0].length;
@@ -151,7 +169,6 @@ public class Matriz {
                     if (interactionX == 0) {
                         valid = row != anteriorRow;
                     } else {
-                        System.out.println(column + " == " + anteriorColumn);
                         valid = column != anteriorColumn;
                     }
                 }
@@ -168,18 +185,33 @@ public class Matriz {
         if (this.validCell(row, column)) {
             this.cellAction(row, column);
             this.setHistoriaMovement(row, column);
+            this.completeMatriz();
             verifica = true;
         }
         return verifica;
     }
 
-    public void unDoMovement() {
+    public void undoMovement() {
         int indexLastMove = this.getHistoria().size() - 1;
         if (indexLastMove > -1) {
             Historia lastMove = this.getHistoriaMovement(indexLastMove);
             this.cellAction(lastMove.getX(), lastMove.getY());
             historia.remove(indexLastMove);
         }
+    }
+    
+    public boolean completeMatriz(){
+        boolean hasBlue = false;
+        Celda[][] mat = this.getMatriz();
+        for(int i = 0; i < mat.length && !hasBlue; i++){
+            for (int j = 0; j < mat[0].length && !hasBlue; j++) {
+                if(mat[i][j].getColour() == 'B'){
+                    this.getTime().sto
+                    hasBlue = true;
+                }
+            }
+        }
+        return !hasBlue;
     }
 
     public Matriz() {
@@ -188,6 +220,7 @@ public class Matriz {
 
     public Matriz(int row, int column, int nivel) {
         char[] symbols = {'\\', '|', '-', '/'};
+        this.setComplete(false);
         this.setHitoria();
         this.setMatriz(row, column);
         for (int i = 0; i < row; i++) {
