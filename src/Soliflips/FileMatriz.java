@@ -16,6 +16,15 @@ import java.util.Scanner;
 public class FileMatriz {
 
     private String ruta;
+    private Player matriz;
+
+    public Player getMatriz() {
+        return matriz;
+    }
+
+    public void setMatriz(Player mat) {
+        this.matriz = mat;
+    }
 
     public String getRuta() {
         return ruta;
@@ -33,26 +42,28 @@ public class FileMatriz {
         int row = Integer.parseInt(size[0]);
         int column = Integer.parseInt(size[1]);
 
-        Matriz mat = new Matriz(row, column);
+        this.setMatriz(new Player(row, column));
 
+        Player playerMat = this.getMatriz();
+        
         for (int i = 0; i < row; i++) {
             String line = input.nextLine();
             for (int j = 0; j < column; j++) {
                 int updateJ = j * 3;
-                mat.setCelda(i, j, line.charAt(updateJ), line.charAt(updateJ + 1));
+                playerMat.setCelda(i, j, line.charAt(updateJ), line.charAt(updateJ + 1));
             }
         }
 
         int level = Integer.parseInt(input.nextLine());
-        mat.setNivel(level);
+        playerMat.setNivel(level);
 
-        int i = 0;
+        int i = 1;
         while (input.hasNextLine()) {
             String[] line = input.nextLine().split(" ");
             int solRow = Integer.parseInt(line[0]);
             int solColumn = Integer.parseInt(line[1]);
             
-            mat.setSolucionHistoria(solRow, solColumn, i);
+            playerMat.setSolucionHistoria(solRow-1, solColumn-1, level-i);
             i++;
         }
     }

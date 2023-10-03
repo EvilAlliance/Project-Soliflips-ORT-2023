@@ -1,14 +1,10 @@
 package Soliflips;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 public class Matriz {
 
     private Celda[][] matriz;
     private int nivel;
     private Historia[] solucion;
-    private ArrayList<Historia> historia;
     private Tiempo time;
     private boolean complete;
 
@@ -66,28 +62,6 @@ public class Matriz {
         if (this.validCell(row, column) && index >= 0 && index < solucion.length) {
             this.solucion[index] = new Historia(row, column);
             verifica = true;
-        }
-
-        return verifica;
-    }
-
-    public ArrayList<Historia> getHistoria() {
-        return this.historia;
-    }
-
-    public void setHitoria() {
-        this.historia = new ArrayList<Historia>();
-    }
-
-    public Historia getHistoriaMovement(int givenIndex) {
-        return historia.get(givenIndex);
-    }
-
-    public boolean setHistoriaMovement(int row, int column) {
-        boolean verifica = false;
-
-        if (this.validCell(row, column)) {
-            this.historia.add(new Historia(row, column));
         }
 
         return verifica;
@@ -180,26 +154,6 @@ public class Matriz {
         return valid;
     }
 
-    public boolean playerMovement(int row, int column) {
-        boolean verifica = false;
-        if (this.validCell(row, column)) {
-            this.cellAction(row, column);
-            this.setHistoriaMovement(row, column);
-            this.completeMatriz();
-            verifica = true;
-        }
-        return verifica;
-    }
-
-    public void undoMovement() {
-        int indexLastMove = this.getHistoria().size() - 1;
-        if (indexLastMove > -1) {
-            Historia lastMove = this.getHistoriaMovement(indexLastMove);
-            this.cellAction(lastMove.getX(), lastMove.getY());
-            historia.remove(indexLastMove);
-        }
-    }
-
     public boolean completeMatriz() {
         boolean hasBlue = false;
         Celda[][] mat = this.getMatriz();
@@ -226,7 +180,6 @@ public class Matriz {
         char[] symbols = {'\\', '|', '-', '/'};
         this.setComplete(false);
         this.setTime();
-        this.setHitoria();
         this.setMatriz(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -253,7 +206,6 @@ public class Matriz {
 
     public Matriz(int row, int column) {
         this.setComplete(false);
-        this.setHitoria();
         this.setTime();
         this.setMatriz(row, column);
     }
