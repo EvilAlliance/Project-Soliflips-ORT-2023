@@ -5,6 +5,7 @@
 package Soliflips;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -55,6 +56,22 @@ public class Player extends Matriz {
             historia.remove(indexLastMove);
         }
     }
+
+    public String stringDoPlayerMovement(int row, int column) {
+        String[] before = this.toString().split("\\n");
+        this.playerMovement(row, column);
+        String[] after = this.toString().split("\\n");
+        for (int i = 0; i < before.length; i++) {
+            before[i] += "  ==>  " + after[i];
+        }
+
+        return String.join("\n", before);
+    }
+    
+        public void printDoPlayerMovement(int row, int column) {
+            System.out.println(this.stringDoPlayerMovement(row, column));
+        }
+
 
     public Player(int row, int column, int nivel) {
         super(row, column, nivel);

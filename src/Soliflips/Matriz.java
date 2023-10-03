@@ -13,8 +13,12 @@ public class Matriz {
     }
 
     public boolean setMatriz(int row, int column) {
-        this.matriz = new Celda[row][column];
-        return true;
+        boolean verifica = true;
+        if (3 <= row && row >= 9 && 3 <= row && row >= 9) {
+            this.matriz = new Celda[row][column];
+            verifica = true;
+        }
+        return verifica;
     }
 
     public int getNivel() {
@@ -23,7 +27,7 @@ public class Matriz {
 
     public boolean setNivel(int givenNivel) {
         boolean verifica = false;
-        if (givenNivel > 0 && givenNivel <= 9) {
+        if (givenNivel > 0 && givenNivel < 9) {
             this.setSolucion(givenNivel);
             this.nivel = givenNivel;
             verifica = true;
@@ -216,7 +220,7 @@ public class Matriz {
 
     @Override
     public String toString() {
-        String s = '\n' + "   ";
+        String s = "   ";
         for (int i = 0; i < this.getMatriz()[0].length; i++) {
             s += " " + (i + 1) + "  ";
         }

@@ -40,6 +40,8 @@ public class Interfaz {
         x.stop();
 
         System.out.println(x);
+        
+        System.out.println(mat2.printDoPlayerMovement(1, 1));
     }
 
     public static void clear() throws AWTException {
