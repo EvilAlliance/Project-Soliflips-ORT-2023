@@ -1,17 +1,28 @@
 package Soliflips;
 
+import java.util.Arrays;
+
 public class Celda {
 
-    private Symbol symbol;
+    private char symbol;
     private char colour;
 
-    public Symbol getSymbol() {
+    public char getSymbol() {
         return this.symbol;
     }
 
     public boolean setSymbol(char givenSymbol) {
-        this.symbol = new Symbol(givenSymbol);
-        return Character.isLetter(this.symbol.getSymbol());
+        boolean verifica = false;
+        char[] characters = {'/', '\\', '|', '-'};
+
+        for (int i = 0; i < characters.length && !verifica; i++) {
+            if (characters[i] == givenSymbol) {
+                this.symbol = givenSymbol;
+                verifica = true;
+            }
+        }
+
+        return verifica;
     }
 
     public char getColour() {
@@ -55,7 +66,7 @@ public class Celda {
         } else {
             print += "\u001B[31m";
         }
-        print += this.getSymbol().getSymbol() + "\u001B[0m";
+        print += this.getSymbol() + "\u001B[0m";
         return print;
     }
 }

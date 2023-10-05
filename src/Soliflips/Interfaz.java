@@ -14,7 +14,7 @@ public class Interfaz {
 
     public static void main(String[] args) throws InterruptedException, AWTException, FileNotFoundException {
         Player mat2 = new FileMatriz(".\\Test\\datos.txt").getMatriz();
-        
+
         mat2.print();
         System.out.println(Arrays.toString(mat2.getSolucion()));
 
@@ -40,8 +40,8 @@ public class Interfaz {
         x.stop();
 
         System.out.println(x);
-        
-        System.out.println(mat2.printDoPlayerMovement(1, 1));
+
+        mat2.printDoPlayerMovement(1, 1);
     }
 
     public static void clear() throws AWTException {

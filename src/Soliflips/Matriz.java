@@ -6,15 +6,16 @@ public class Matriz {
     private int nivel;
     private Historia[] solucion;
     private Tiempo time;
-    private boolean complete;
+    private boolean complete = false;
+    private Symbol[] simbolosDisponibles = {new Symbol('/'), new Symbol('|'), new Symbol('\\'), new Symbol('-')};
 
     public Celda[][] getMatriz() {
         return this.matriz;
     }
 
     public boolean setMatriz(int row, int column) {
-        boolean verifica = true;
-        if (3 <= row && row >= 9 && 3 <= row && row >= 9) {
+        boolean verifica = false;
+        if (3 <= row && row <= 9 && 3 <= column && column <= 9) {
             this.matriz = new Celda[row][column];
             verifica = true;
         }
@@ -79,6 +80,10 @@ public class Matriz {
         return time;
     }
 
+    public Symbol[] getSymbol() {
+        return this.simbolosDisponibles;
+    }
+
     public void setComplete(boolean givenBoolean) {
         this.complete = givenBoolean;
     }
@@ -91,10 +96,23 @@ public class Matriz {
         return row >= 0 && row < this.getMatriz().length && column >= 0 && column < this.getMatriz()[0].length;
     }
 
+    public Symbol getInteraction(char givenSymbol) {
+        Symbol[] simboloDisponible = this.getSymbol();
+        int index = -1;
+        for (int i = 0; i < simboloDisponible.length && index == -1; i++) {
+            if (givenSymbol == simboloDisponible[i].getSymbol()) {
+                index = i;
+            }
+        }
+        return simboloDisponible[index];
+    }
+
     public void cellAction(int row, int column) {
         if (this.validCell(row, column)) {
-            int interactionX = this.getCelda(row, column).getSymbol().getInteractionX();
-            int interactionY = this.getCelda(row, column).getSymbol().getInteractionY();
+            char symbol = this.getCelda(row, column).getSymbol();
+            Symbol simboloInteraction = this.getInteraction(symbol);
+            int interactionX = simboloInteraction.getInteractionX();
+            int interactionY = simboloInteraction.getInteractionY();
 
             int x = row;
             int y = column;
@@ -122,10 +140,11 @@ public class Matriz {
         int anteriorColumn = movimiento.getY();
         if (this.validCell(row, column) && (row != anteriorRow || column != anteriorColumn)) {
             valid = true;
-            Symbol symbol = this.getCelda(row, column).getSymbol();
-            if (symbol.getSymbol() == this.getCelda(anteriorRow, anteriorColumn).getSymbol().getSymbol()) {
-                int interactionX = symbol.getInteractionX();
-                int interactionY = symbol.getInteractionY();
+            char symbol = this.getCelda(row, column).getSymbol();
+            if (symbol == this.getCelda(anteriorRow, anteriorColumn).getSymbol()) {
+                Symbol simboloInteraction = this.getInteraction(symbol);
+                int interactionX = simboloInteraction.getInteractionX();
+                int interactionY = simboloInteraction.getInteractionY();
                 if (interactionX != 0 && interactionY != 0) {
                     int x = anteriorRow;
                     int y = anteriorColumn;
@@ -181,14 +200,13 @@ public class Matriz {
     }
 
     public Matriz(int row, int column, int nivel) {
-        char[] symbols = {'\\', '|', '-', '/'};
-        this.setComplete(false);
         this.setTime();
         this.setMatriz(row, column);
+        Symbol[] simboloDisponible = this.getSymbol();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 int random = (int) Math.floor(Math.random() * 4);
-                if (!this.setCelda(i, j, symbols[random], 'R')) {
+                if (!this.setCelda(i, j, simboloDisponible[random].getSymbol(), 'R')) {
                     j--;
                 }
             }
@@ -209,7 +227,6 @@ public class Matriz {
     }
 
     public Matriz(int row, int column) {
-        this.setComplete(false);
         this.setTime();
         this.setMatriz(row, column);
     }
