@@ -133,7 +133,7 @@ public class Interfaz {
         String wish = "";
 
         while (!wish.equalsIgnoreCase("no") && !wish.equalsIgnoreCase("si")) {
-            System.out.println("Bienvenido, a Solifplis, un divertido juego en el que la pasaras bien!");
+            System.out.println("Bienvenido a Solifplis, un divertido juego en el que la pasaras bien!");
             System.out.println("Desea jugarlo?");
             wish = sc.nextLine();
 
@@ -151,10 +151,10 @@ public class Interfaz {
         String answer = "";
 
         while (!answer.equalsIgnoreCase("a") && !answer.equalsIgnoreCase("b") && !answer.equalsIgnoreCase("c") && !answer.equals("-1") && !this.getForcedFinish()) {
-            System.out.println("Bienvenido: " + this.getName() + ". Ingrese la opcion que desea (-1 para salir)");
+            System.out.println("Bienvenido " + this.getName() + ", ingrese la opcion que desee (-1 para salir)");
             System.out.println("a) Tomar datos del archivo .txt");
             System.out.println("b) Usar el tablero predefinido");
-            System.out.println("c) Usar un tablero al azar. En este caso se ingresa m (cantidad de filas), n (cantidad de columnas), nivel (1 a 8).");
+            System.out.println("c) Usar un tablero al azar");
 
             answer = sc.nextLine();
 
@@ -306,7 +306,7 @@ public class Interfaz {
         String moveMade = "";
 
         while (!(moveMade.length() == 1 || (moveMade.length() == 3 && this.isMove(moveMade)) || moveMade.equals("-1 -1"))) {
-            System.out.println("Declare su movimiento, primero las filas y despues las columnas");
+            System.out.println("Declare su movimiento, primero las filas y seguidas de un espacio, las columnas");
             moveMade = sc.nextLine();
 
             System.out.println("");
