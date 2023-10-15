@@ -2,16 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Soliflips;
+package dominio;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
- * @author chial
+ * @author Pedro Chialanza (302782) - Leandro Meneses (305998)
  */
-import java.util.concurrent.TimeUnit;
-
 public class Tiempo {
-
+    
     private long startTime;
     private long stopTime;
 
@@ -34,7 +34,11 @@ public class Tiempo {
     public Tiempo() {
         this.start();
     }
-
+    
+    /**
+     * @return Retorna un string que contiene la conversion de milisegundos a segundos, minutos, horas y dias, por pedido del obligatorio 
+     */
+    
     @Override
     public String toString() {
         long total = this.getStopTime() - this.getStartTime();

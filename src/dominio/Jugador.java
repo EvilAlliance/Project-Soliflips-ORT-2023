@@ -1,16 +1,16 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Soliflips;
+package dominio;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author chial
+ * @author Pedro Chialanza (302782) - Leandro Meneses (305998)
  */
-public class Player extends Matriz {
+public class Jugador extends Matriz {
 
     private ArrayList<Historia> historia;
 
@@ -18,7 +18,7 @@ public class Player extends Matriz {
         return this.historia;
     }
 
-    public void setHitoria() {
+    public void setHistoria() {
         this.historia = new ArrayList<Historia>();
     }
 
@@ -56,7 +56,7 @@ public class Player extends Matriz {
         }
     }
 
-    public String stringDoPlayerMovement(int row, int column) {
+    public String stringPlayerMovement(int row, int column) {
         String[] before = this.toString().split("\\n");
         this.playerMovement(row, column);
         String[] after = this.toString().split("\\n");
@@ -67,23 +67,23 @@ public class Player extends Matriz {
         return String.join("\n", before);
     }
     
-        public void printDoPlayerMovement(int row, int column) {
-            System.out.println(this.stringDoPlayerMovement(row, column));
+        public void printPlayerMovement(int row, int column) {
+            System.out.println(this.stringPlayerMovement(row, column));
         }
 
 
-    public Player(int row, int column, int nivel) {
+    public Jugador(int row, int column, int nivel) {
         super(row, column, nivel);
-        this.setHitoria();
+        this.setHistoria();
     }
 
-    public Player(int row, int column) {
+    public Jugador(int row, int column) {
         super(row, column);
-        this.setHitoria();
+        this.setHistoria();
     }
 
-    public Player() {
+    public Jugador() {
         super();
-        this.setHitoria();
+        this.setHistoria();
     }
 }

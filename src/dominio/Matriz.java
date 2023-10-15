@@ -1,5 +1,9 @@
-package Soliflips;
+    package dominio;
 
+/**
+ *
+ * @author Pedro Chialanza (302782) - Leandro Meneses (305998)
+ */
 public class Matriz {
 
     private Celda[][] matriz;
@@ -7,12 +11,17 @@ public class Matriz {
     private Historia[] solucion;
     private Tiempo time;
     private boolean complete = false;
-    private Symbol[] simbolosDisponibles = {new Symbol('/'), new Symbol('|'), new Symbol('\\'), new Symbol('-')};
+    private Simbolo[] simbolosDisponibles = {new Simbolo('/'), new Simbolo('|'), new Simbolo('\\'), new Simbolo('-')};
 
     public Celda[][] getMatriz() {
         return this.matriz;
     }
 
+    /**
+     * @param row Son las filas que va a tener la matriz
+     * @param column Analogamente para las columnas
+     * @return Un boolean que indica si las filas y las columnas deseadas entran en el rango pedido por el obligatorio
+     */
     public boolean setMatriz(int row, int column) {
         boolean verifica = false;
         if (3 <= row && row <= 9 && 3 <= column && column <= 9) {
@@ -26,6 +35,10 @@ public class Matriz {
         return this.nivel;
     }
 
+    /**
+     * @param givenNivel Es un entero que representa la cantidad de pasos en los que se puede ganar, no garantiza que sea la cantidad minima o maxima de pasos necesarios para poder resolverlo
+     * @return Un boolean que indica si el nivel entra en el rango pedido por el obligatorio
+     */
     public boolean setNivel(int givenNivel) {
         boolean verifica = false;
         if (givenNivel > 0 && givenNivel < 9) {
@@ -40,6 +53,13 @@ public class Matriz {
         return this.matriz[row][column];
     }
 
+    /**
+     * @param row Entero que indica la cantidad de filas
+     * @param column Entero que indica la cantidad de columnas
+     * @param symbol Caracter que representa al simbolo en la celda
+     * @param colour Caracter que representa el color del simbolo
+     * @return Un boolean que indica si la matriz no es nula y la celda es valida
+     */
     public boolean setCelda(int row, int column, char symbol, char colour) {
         boolean verifica = false;
         if (this.getMatriz() != null && this.validCell(row, column)) {
@@ -53,14 +73,27 @@ public class Matriz {
         return solucion;
     }
 
-    public void setSolucion(int givenLenght) {
-        this.solucion = new Historia[givenLenght];
+    /**
+     * @param givenLength Entero que representa la cantidad de pasos en los que se tiene que resolver la matriz dada
+     */
+    public void setSolucion(int givenLength) {
+        this.solucion = new Historia[givenLength];
     }
 
+    /**
+     * @param givenIndex Entero que representa el indice en el que se encuentra el par ordenado deseado
+     * @return El par ordenado deseado
+     */
     public Historia getSolucionHistoria(int givenIndex) {
         return solucion[givenIndex];
     }
 
+    /**
+     * @param row Entero que representa las filas que va a tener el historial
+     * @param column Entero que representa las columnas que va a tener el historial
+     * @param index Entero que representa el indice para el historial
+     * @return Un boolean que indica si lo anterior es valido segun lo pedido en el obligatorio
+     */
     public boolean setSolucionHistoria(int row, int column, int index) {
         boolean verifica = false;
 
@@ -80,7 +113,7 @@ public class Matriz {
         return time;
     }
 
-    public Symbol[] getSymbol() {
+    public Simbolo[] getSymbol() {
         return this.simbolosDisponibles;
     }
 
@@ -92,12 +125,20 @@ public class Matriz {
         return this.complete;
     }
 
+    /**
+     * @param row Entero que representa la fila para poder intersecarla con una columna
+     * @param column Entero que representa la columna para poder intersecarla con la fila
+     * @return Un boolean que indica si la celda es valida segun si esta dentro de la matriz
+     */
     public boolean validCell(int row, int column) {
         return row >= 0 && row < this.getMatriz().length && column >= 0 && column < this.getMatriz()[0].length;
     }
 
-    public Symbol getInteraction(char givenSymbol) {
-        Symbol[] simboloDisponible = this.getSymbol();
+    /**
+     * @param givenSymbol Caracter que representa el simbolo para poder hacer el cambio necesario
+     */
+    public Simbolo getInteraction(char givenSymbol) {
+        Simbolo[] simboloDisponible = this.getSymbol();
         int index = -1;
         for (int i = 0; i < simboloDisponible.length && index == -1; i++) {
             if (givenSymbol == simboloDisponible[i].getSymbol()) {
@@ -107,10 +148,14 @@ public class Matriz {
         return simboloDisponible[index];
     }
 
+    /**
+     * @param row Entero que representa la fila seleccionada
+     * @param column Entero que representa la columna seleccionada
+     */
     public void cellAction(int row, int column) {
         if (this.validCell(row, column)) {
             char symbol = this.getCelda(row, column).getSymbol();
-            Symbol simboloInteraction = this.getInteraction(symbol);
+            Simbolo simboloInteraction = this.getInteraction(symbol);
             int interactionX = simboloInteraction.getInteractionX();
             int interactionY = simboloInteraction.getInteractionY();
 
@@ -118,8 +163,8 @@ public class Matriz {
             int y = column;
 
             int interaction = -1;
-            int iteraction = 0;
-            while (iteraction < 2) {
+            int iterator = 0;
+            while (iterator < 2) {
                 interaction *= -1;
                 while (this.validCell(x, y)) {
                     this.getCelda(x, y).swap();
@@ -128,7 +173,7 @@ public class Matriz {
                 }
                 x = row - interactionX;
                 y = column - interactionY;
-                iteraction++;
+                iterator++;
             }
         }
     }
@@ -142,7 +187,7 @@ public class Matriz {
             valid = true;
             char symbol = this.getCelda(row, column).getSymbol();
             if (symbol == this.getCelda(anteriorRow, anteriorColumn).getSymbol()) {
-                Symbol simboloInteraction = this.getInteraction(symbol);
+                Simbolo simboloInteraction = this.getInteraction(symbol);
                 int interactionX = simboloInteraction.getInteractionX();
                 int interactionY = simboloInteraction.getInteractionY();
                 if (interactionX != 0 && interactionY != 0) {
@@ -178,21 +223,23 @@ public class Matriz {
     }
 
     public boolean completeMatriz() {
-        boolean hasBlue = false;
+        boolean hasColor = false;
         Celda[][] mat = this.getMatriz();
-        for (int i = 0; i < mat.length && !hasBlue; i++) {
-            for (int j = 0; j < mat[0].length && !hasBlue; j++) {
-                if (mat[i][j].getColour() == 'B') {
-                    hasBlue = true;
+        char color = this.getCelda(0, 0).getColour();
+        for (int i = 0; i < mat.length && !hasColor; i++) {
+            for (int j = 0; j < mat[0].length && !hasColor; j++) {
+                if (mat[i][j].getColour() != color) {
+                    hasColor = true;
                 }
             }
         }
 
-        if (!hasBlue) {
+        if (!hasColor) {
             this.getTime().stop();
+            this.setComplete(true);
         }
 
-        return !hasBlue;
+        return !hasColor;
     }
 
     public Matriz() {
@@ -202,7 +249,7 @@ public class Matriz {
     public Matriz(int row, int column, int nivel) {
         this.setTime();
         this.setMatriz(row, column);
-        Symbol[] simboloDisponible = this.getSymbol();
+        Simbolo[] simboloDisponible = this.getSymbol();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 int random = (int) Math.floor(Math.random() * 4);
