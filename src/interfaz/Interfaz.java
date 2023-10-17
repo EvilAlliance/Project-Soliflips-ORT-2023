@@ -299,10 +299,10 @@ public class Interfaz {
     public void makeMove() {
         if (!this.getMadeMove()) {
             this.getPlayer().print();
-            this.setMadeMove(false);
-
         }
-
+        
+        this.setMadeMove(false);
+    
         String moveMade = "";
 
         while (!(moveMade.length() == 1 || (moveMade.length() == 3 && this.isMove(moveMade)) || moveMade.equals("-1 -1"))) {
